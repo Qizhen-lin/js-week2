@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>  <!-- 引入axios的js -->
+  <title>Document</title>
+  <style>
+    .button-block {
+      text-align: center;
+    }
+
+    button {
+      border: #BF0060 1px solid;
+      background-color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    ul {
+      display: flex;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    ul li {
+      width: 280px;
+      border: 1px solid #000;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .loader {
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #3498db;
+      width: 70px;
+      height: 70px;
+      -webkit-animation: spin 2s linear infinite; /* Safari */
+      animation: spin 2s linear infinite;
+      margin: 40vh auto 0;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- <div class="button-block"> 
+    <button id="get" onclick="getApi()">get</button>
+    <button id="post" onclick="postApi()">post</button>
+    <button id="patch" onclick="patchApi()">patch</button>
+    <button id="delete" onclick="deleteApi()">delete</button>
+  </div> -->
+
+  <div>
+    <ul class="list-block"></ul>
+    <div class="loader"></div>
+  </div>
+
+  <script>
+    // var getButton = document.querySelector("#get");
+    // var postButton = document.querySelector("#post");
+    // var patchButton = document.querySelector("#patch");
+    // var deleteButton = document.querySelector("#delete");
+    var listBlock = document.querySelector(".list-block");
+    var loading = document.querySelector(".loader");
+
+    var uuid = "6ef31ce4-57ef-48d0-9681-69fad1858b79";
+    var apiPath = "https://course-ec-api.hexschool.io/";
+    var apitoken = "tufkahmCUeXHBz3dtDDNPaF1i8cFZoNjNNk28wxpSIn5uTzq2zQcgng9pFT2";
+
+    axios.defaults.headers['Authorization'] = `Bearer ${apitoken}`;//  認證 token
+
+    // get 函式 - 取列表
+    function getApi() {
+      var apiUrl = `${apiPath}/api/${uuid}/ec/products`; // 組合取得 api 網址
+
+      axios.get(apiUrl).then(res => { // 用 axios 去抓 api 資料
+        // console.log("res", res); 
+        var dataArr = res.data.data; // 取 api 回來的 data 資料
+
+        dataArr.forEach(element => { // 用陣列跑迴圈去執行資料寫進 ul tag 裡的內容
+          listBlock.innerHTML +=`
+            <li>
+            標題: ${element.title} <br />
+            類別: ${element.category} <br />
+            內容: ${element.content} <br />
+            描述: ${element.description} <br />
+            圖片: <img src=${element.imageUrl[0]} width= "200px" />
+            </li>
+          `;
+        });
+
+        loading.style.display = "none"; // 讓讀取圖式隱藏
+      });
+    }
+
+    getApi(); // 讓一進頁面時，直接去執行它秀資料
+
+    // post 函式 - 新增
+    function postApi() {
+      var apiUrl = `${apiPath}api/${uuid}/admin/ec/product`;
+
+      var data = {
+        title: "皮卡丘短袖聯名款上衣",
+        category: "上衣",
+        content: "便宜的皮卡丘",
+        description: "優惠只到年底",
+        imageUrl: [
+          "https://img.4gamers.com.tw/ckfinder/images/TangBao/1812/19-pikachu-01.jpg"
+        ],
+        enabled: true
+      };
+
+      axios.post(apiUrl, data).then(res => {
+        // console.log("res內容：", res);
+        var dataObj = res.data.data;// 取 api 回來的 data 資料
+
+        listBlock.innerHTML +=`
+          <li>
+          標題: ${dataObj.title} <br />
+          類別: ${dataObj.category} <br />
+          內容: ${dataObj.content} <br />
+          描述: ${dataObj.description} <br />
+          圖片: <img src=${dataObj.imageUrl[0]} width= "200px" />
+          </li>
+        `;
+      });
+    }
+    
+    // patch 函式 - 修改
+    // function patchApi() {
+    //   var id = "SRrkiU4cLXWYvZnjAuUb3gvsTQxsJiC6hyUa6nAUDfwtAKlfbb1lew3zhzlg03Ij";
+    //   var apiUrl = `${apiPath}api/${uuid}/admin/ec/product/${id}`;
+
+    //   var data = {
+    //     title: "史萊姆短袖聯名款上衣",
+    //     category: "上衣",
+    //     content: "便宜的史萊姆",
+    //     description: "優惠只到年底",
+    //     imageUrl: [
+    //       "https://img.4gamers.com.tw/ckfinder/images/TangBao/1812/19-pikachu-01.jpg"
+    //     ],
+    //     enabled: true
+    //   };
+
+    //   axios.patch(apiUrl, data).then(function (response) {
+    //     console.log("response內容：", response);
+    //   });
+    // }
+    
+  </script>
+
+
+</body>
+</html>

@@ -78,9 +78,9 @@
 
     var uuid = "6ef31ce4-57ef-48d0-9681-69fad1858b79";
     var apiPath = "https://course-ec-api.hexschool.io/";
-    var apitoken = "tufkahmCUeXHBz3dtDDNPaF1i8cFZoNjNNk28wxpSIn5uTzq2zQcgng9pFT2";
+  
 
-    axios.defaults.headers['Authorization'] = `Bearer ${apitoken}`;//  認證 token
+    // axios.defaults.headers['Authorization'] = `Bearer ${apitoken}`;//  認證 token
 
     // get 函式 - 取列表
     function getApi() {
@@ -109,35 +109,35 @@
     getApi(); // 讓一進頁面時，直接去執行它秀資料
 
     // post 函式 - 新增
-    function postApi() {
-      var apiUrl = `${apiPath}api/${uuid}/admin/ec/product`;
+    // function postApi() {
+    //   var apiUrl = `${apiPath}api/${uuid}/admin/ec/product`;
 
-      var data = {
-        title: "皮卡丘短袖聯名款上衣",
-        category: "上衣",
-        content: "便宜的皮卡丘",
-        description: "優惠只到年底",
-        imageUrl: [
-          "https://img.4gamers.com.tw/ckfinder/images/TangBao/1812/19-pikachu-01.jpg"
-        ],
-        enabled: true
-      };
+    //   var data = {
+    //     title: "皮卡丘短袖聯名款上衣",
+    //     category: "上衣",
+    //     content: "便宜的皮卡丘",
+    //     description: "優惠只到年底",
+    //     imageUrl: [
+    //       "https://img.4gamers.com.tw/ckfinder/images/TangBao/1812/19-pikachu-01.jpg"
+    //     ],
+    //     enabled: true
+    //   };
 
-      axios.post(apiUrl, data).then(res => {
-        // console.log("res內容：", res);
-        var dataObj = res.data.data;// 取 api 回來的 data 資料
+    //   axios.post(apiUrl, data).then(res => {
+    //     // console.log("res內容：", res);
+    //     var dataObj = res.data.data;// 取 api 回來的 data 資料
 
-        listBlock.innerHTML +=`
-          <li>
-          標題: ${dataObj.title} <br />
-          類別: ${dataObj.category} <br />
-          內容: ${dataObj.content} <br />
-          描述: ${dataObj.description} <br />
-          圖片: <img src=${dataObj.imageUrl[0]} width= "200px" />
-          </li>
-        `;
-      });
-    }
+    //     listBlock.innerHTML +=`
+    //       <li>
+    //       標題: ${dataObj.title} <br />
+    //       類別: ${dataObj.category} <br />
+    //       內容: ${dataObj.content} <br />
+    //       描述: ${dataObj.description} <br />
+    //       圖片: <img src=${dataObj.imageUrl[0]} width= "200px" />
+    //       </li>
+    //     `;
+    //   });
+    // }
     
     // patch 函式 - 修改
     // function patchApi() {
